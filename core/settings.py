@@ -1,4 +1,7 @@
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 from pathlib import Path
 
@@ -7,10 +10,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=sbtx06p#7))o&w(d54*06-vgm+bg_=28yi0k79vpyt7sx)1yi'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -24,6 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #3rd party apps
+    'account',
+    'app',
 ]
 
 MIDDLEWARE = [
