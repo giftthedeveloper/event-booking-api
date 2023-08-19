@@ -1,6 +1,6 @@
 from django.db import models
 from account.models import User
-from events.events_models import Event
+from ..events.events_models import Event
 
 
 class Booking(models.Model):
