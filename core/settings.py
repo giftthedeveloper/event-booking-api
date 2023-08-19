@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+import cloudinary
 load_dotenv()
 
 from pathlib import Path
@@ -31,6 +32,10 @@ INSTALLED_APPS = [
     #3rd party apps
     'account',
     'app',
+
+    #other packages
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -117,3 +122,11 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+          
+cloudinary.config( 
+  cloud_name = os.getenv('CLOUD_NAME'),
+  api_key = os.getenv('CLOUDINARY_API_KEY'),
+  api_secret = os.getenv('CLOUDINARY_API_SECRET'),
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
