@@ -34,3 +34,18 @@ class CreateBooking(graphene.Mutation):
         booking.save()
         return CreateBooking(booking=booking)
         
+
+#delete booking
+class   DeleteBooking(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+       
+    
+    booking = graphene.Field(BookingType)
+
+    @classmethod
+    def mutate(cls, root, info, id):
+        booking = Booking.objects.get(id=id)
+        booking.delete()
+        return f"booking deleted"
+        

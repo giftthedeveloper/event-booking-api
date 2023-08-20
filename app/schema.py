@@ -2,7 +2,7 @@ import graphene
 from .events.schema import EventType,Event
 from .event_category.schema import EventCategoryType, EventCategory, CategoryMutation, EventCategoryMutation, \
     DeleteEventCategoryMutation
-from .event_booking.schema import Booking,BookingType, CreateBooking
+from .event_booking.schema import Booking,BookingType, CreateBooking, DeleteBooking
 
 class Query(graphene.ObjectType):
     all_events = graphene.List(EventType)
@@ -28,5 +28,6 @@ class Mutation(graphene.ObjectType):
     
     #bookings
     add_booking = CreateBooking.Field()
+    delete_booking = DeleteBooking.Field()
     
 schema = graphene.Schema(query=Query, mutation=Mutation)
