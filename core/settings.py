@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'app',
 
     #other packages
+    'graphene_django',
     'cloudinary',
     'cloudinary_storage',
 ]
@@ -124,9 +125,16 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
           
-cloudinary.config( 
-  cloud_name = os.getenv('CLOUD_NAME'),
-  api_key = os.getenv('CLOUDINARY_API_KEY'),
-  api_secret = os.getenv('CLOUDINARY_API_SECRET'),
-)
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    # 'UPLOAD_FOLDER': 'event-booking-api/',  # Optional: Specify an upload folder
+    'QUALITY': 'auto',  # Optional: Set image quality
+    'DEFAULT_FORMAT': 'jpg',  # Optional: Set the default format
+}
+
+# Use the MediaCloudinaryStorage storage backend for your media files
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
