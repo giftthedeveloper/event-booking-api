@@ -12,7 +12,9 @@ class Booking(models.Model):
     num_ticket = models.PositiveIntegerField(default=1)
     is_confirmed = models.BooleanField(default=False)
     dynamic_form_data = models.JSONField(null=True, blank=True)
-    
+
+# 'id', 'name', 'email', 'event', 'booking_date', 'num_ticket', 'is_confirmed', 'dynamic-form-data', 'total_amount'
+
     @property
     def total_amount(self):
         amount = self.event.ticket_price * self.num_tickets
