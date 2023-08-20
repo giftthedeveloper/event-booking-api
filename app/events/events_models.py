@@ -1,3 +1,4 @@
+from io import BytesIO
 import qrcode
 from django.db import models
 from django.utils.text import slugify
@@ -20,10 +21,9 @@ class Event(models.Model):
     category = models.ManyToManyField(EventCategory, related_name='eventscategory')
     qr_code = models.CharField(max_length=255, unique=True, editable=False)  # Making it non-editable
     custom_link = models.CharField(max_length=255, help_text='Choose a memorable link name, e.g. mywedding, giftbirthday')
-
+# 'organizer', 'name', 'date_time', 'location', 'description', 'ticket_price', 'tickets_available', 'is_cancelled', 'category', 'qr_code', 'custom_links'
     def __str__(self):
         return self.name
-
 
 
     def generate_unique_qr_code(self):
@@ -38,18 +38,22 @@ class Event(models.Model):
         qr.make(fit=True)
 
         img = qr.make_image(fill_color="black", back_color="white")
-        img_path = f'events-api/qr_codes/event_{self.id}.png'  # Local path for reference
-        img.save(img_path, 'PNG')
+        img_io = BytesIO()
+        img.save(img_io, format='PNG')
+        img_io.seek(0)
 
         # Upload the image to Cloudinary
-        response = cloudinary.uploader.upload(img_path)
-        
-        # Remove the locally saved image
-        os.remove(img_path)
-        
+        response = cloudinary.uploader.upload(
+            img_io,
+            public_id=f'events-api/qr_codes/event_{self.id}',
+            api_key=os.getenv('CLOUDINARY_API_KEY'),
+            api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+            cloud_name=os.getenv('CLOUD_NAME')
+        )
+
         # Get the Cloudinary URL from the response
         cloudinary_url = response['secure_url']
-        
+
         return cloudinary_url
 
     def save(self, *args, **kwargs):

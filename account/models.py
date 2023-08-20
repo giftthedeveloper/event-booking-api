@@ -33,8 +33,9 @@ class User(AbstractBaseUser, PermissionsMixin):    #full name instead of first-n
     date_joined = models.DateTimeField(auto_now_add=True)
     groups = models.ManyToManyField('auth.Group',blank=True,related_name='custom_user_set',)
     user_permissions = models.ManyToManyField('auth.Permission',blank=True,related_name='custom_user_set')
-    USERNAME_FIELD = 'username'		#'email'
-    REQUIRED_FIELDS = ['full_name', 'email']
+
+    REQUIRED_FIELDS = ['full_name', 'email', 'phone', 'is_staff', 'role']
+    USERNAME_FIELD = 'email'		#'email'
 
     objects = UserManager()
 
