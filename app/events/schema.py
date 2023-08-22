@@ -22,7 +22,7 @@ class CreateEvent(graphene.Mutation):
         ticket_price = graphene.Int(required=True)
         tickets_available = graphene.Int(required=True)
         is_cancelled = graphene.Boolean()
-        category = graphene.ID(required=True)
+        category = graphene.List(graphene.ID, required=True)
         # qr_code = graphene.String()
         custom_link = graphene.String()
 
@@ -42,8 +42,8 @@ class CreateEvent(graphene.Mutation):
                       is_cancelled=is_cancelled,
                       custom_link=custom_link)
         event.save()
-        category_id = EventCategory.objects.get(pk=category)
-        event.category.set([category_id])
+        category_ids = EventCategory.objects.filter(pk__in=category)        
+        event.category.set(category_ids)
 
         return CreateEvent(event=event)
 
@@ -73,4 +73,17 @@ class UpdateEvent(graphene.Mutation):
 
         return UpdateEvent(event=event)
 
+#delete method
+class DeleteEvent(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
 
+    event = graphene.Field(EventType)
+
+    @classmethod
+    def mutate(cls, root, info, id):
+        event = Event.objects.get(id=id)
+
+        event.delete()
+
+        return f'deleted event'
