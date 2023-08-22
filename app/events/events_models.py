@@ -1,4 +1,5 @@
 from io import BytesIO
+import uuid
 import qrcode
 from django.db import models
 from django.utils.text import slugify
@@ -27,7 +28,8 @@ class Event(models.Model):
 
 
     def generate_unique_qr_code(self):
-        data = f"Event ID: {self.id}\nEvent: {self.name}\nOrganizer: {self.organizer.email}"
+        unique_identifier = uuid.uuid4().hex
+        data = f"Unique ID: {unique_identifier}\nEvent ID: {self.id}\nEvent: {self.name}\nOrganizer: {self.organizer.email}"
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
