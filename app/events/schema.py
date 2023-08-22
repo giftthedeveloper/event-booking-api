@@ -46,5 +46,31 @@ class CreateEvent(graphene.Mutation):
         event.category.set([category_id])
 
         return CreateEvent(event=event)
-    
+
+#update method
+class UpdateEvent(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+        name = graphene.String()
+        date_time = graphene.DateTime()
+        location = graphene.String()
+        description = graphene.String()
+        ticket_price = graphene.Int()
+        tickets_available = graphene.Int()
+        is_cancelled = graphene.Boolean()
+        custom_link = graphene.String()
+
+    event = graphene.Field(EventType)
+
+    @classmethod
+    def mutate(cls, root, info, id, **kwargs):
+        event = Event.objects.get(id=id)
+        
+        for field_name, field_value in kwargs.items():
+            setattr(event, field_name, field_value)
+        
+        event.save()
+
+        return UpdateEvent(event=event)
+
 
