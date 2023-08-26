@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     #3rd party apps
     'account',
     'app',
+    'graphene_django',
+    # 'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 
     #other packages
     'cloudinary',
@@ -123,10 +125,27 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-          
-cloudinary.config( 
-  cloud_name = os.getenv('CLOUD_NAME'),
-  api_key = os.getenv('CLOUDINARY_API_KEY'),
-  api_secret = os.getenv('CLOUDINARY_API_SECRET'),
-)
+        
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    # 'UPLOAD_FOLDER': 'event-booking-api/',  # Optional: Specify an upload folder
+    'QUALITY': 'auto',  # Optional: Set image quality
+    'DEFAULT_FORMAT': 'jpg',  # Optional: Set the default format
+}
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# GRAPHENE = {
+#     # 'SCHEMA': 'app.schema.schema',
+#     'MIDDLEWARE': [
+#         'graphql_jwt.middleware.JSONWebTokenMiddleware',
+#     ],
+# }
+
+# AUTHENTICATION_BACKENDS = [
+#     'graphql_jwt.backends.JSONWebTokenBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
