@@ -23,18 +23,18 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):    #full name instead of first-name and last name, signup is email, username and password
-    user_roles= [('user', 'user'), ('admin', 'admin')]
+    user_roles= [('user', 'user'), ('organizer', 'organizer')]
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=50, unique=True, null=True, blank=True)
     full_name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    is_organizer = models.BooleanField(default=False)
     role = models.CharField(max_length=50, choices= user_roles, default='user')
     date_joined = models.DateTimeField(auto_now_add=True)
     groups = models.ManyToManyField('auth.Group',blank=True,related_name='custom_user_set',)
     user_permissions = models.ManyToManyField('auth.Permission',blank=True,related_name='custom_user_set')
 
-    REQUIRED_FIELDS = ['full_name', 'email', 'phone', 'is_staff', 'role']
+    REQUIRED_FIELDS = ['full_name', 'email', 'phone', 'is_organizer', 'role']
     USERNAME_FIELD = 'email'		#'email'
 
     objects = UserManager()

@@ -32,9 +32,10 @@ INSTALLED_APPS = [
     #3rd party apps
     'account',
     'app',
+    'graphene_django',
+    # 'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 
     #other packages
-    'graphene_django',
     'cloudinary',
     'cloudinary_storage',
 ]
@@ -135,5 +136,16 @@ CLOUDINARY_STORAGE = {
     'DEFAULT_FORMAT': 'jpg',  # Optional: Set the default format
 }
 
-# Use the MediaCloudinaryStorage storage backend for your media files
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# GRAPHENE = {
+#     # 'SCHEMA': 'app.schema.schema',
+#     'MIDDLEWARE': [
+#         'graphql_jwt.middleware.JSONWebTokenMiddleware',
+#     ],
+# }
+
+# AUTHENTICATION_BACKENDS = [
+#     'graphql_jwt.backends.JSONWebTokenBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
